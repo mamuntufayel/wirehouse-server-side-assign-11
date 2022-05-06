@@ -1,11 +1,8 @@
 const express = require("express");
 const cors = require("cors");
-const port = process.env.PORT || 5000;
 const app = express();
 require("dotenv").config();
-//
-// DB_USER=mamun
-// DB_PASS=pntYJKP8qG2ilJDs
+const port = process.env.PORT || 5000;
 
 // middleware
 app.use(cors());
@@ -60,6 +57,14 @@ async function run() {
         updateDoc,
         options
       );
+      res.send(result);
+    });
+
+    // Delete an operation
+    app.delete("/product/:id", async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: ObjectId(id) };
+      const result = await ProductCollection.deleteOne(query);
       res.send(result);
     });
   } finally {
