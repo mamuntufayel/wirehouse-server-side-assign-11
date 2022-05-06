@@ -29,13 +29,23 @@ async function run() {
       const result = await ProductCollection.insertOne(data);
       res.send(result);
     });
-    // Getting data
+    // Getting all data
     app.get("/products", async (req, res) => {
       const q = req.query;
       const cursor = ProductCollection.find(q);
       const result = await cursor.toArray();
       res.send(result);
     });
+
+    // Getting a data
+
+    app.get("/product/:id", async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: ObjectId(id) };
+      const result = await ProductCollection.findOne(filter);
+      res.send(result);
+    });
+
     // Make change to a data object
     app.put("/product/:id", async (req, res) => {
       const data = req.body;
